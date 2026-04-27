@@ -3,168 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STEALERGATOR // Enterprise Threat Intel</title>
+    <title>STEALERGATOR // Threat Intelligence</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap');
-        
-        :root {
-            --bg: #0f172a;        /* Slate 900 */
-            --card: #1e293b;      /* Slate 800 */
-            --border: #334155;    /* Slate 700 */
-            --accent: #38bdf8;    /* Sky 400 */
-            --success: #10b981;   /* Emerald 500 */
-            --text-main: #f8fafc; /* Slate 50 */
-            --text-dim: #94a3b8;  /* Slate 400 */
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
-        }
-
+        :root { --bg: #0f172a; --card: #1e293b; --border: #334155; --accent: #38bdf8; --success: #10b981; --text-main: #f8fafc; --text-dim: #94a3b8; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         .mono { font-family: 'JetBrains Mono', monospace; }
-        
-        .intel-card {
-            background-color: var(--card);
-            border: 1px solid var(--border);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .intel-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.5);
-        }
-
-        #sys-log {
-            background: #020617;
-            color: var(--success);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            height: 100px;
-            overflow-y: auto;
-            line-height: 1.5;
-        }
-
-        .tag {
-            font-size: 10px;
-            font-weight: 800;
-            padding: 2px 8px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .rel-3 { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
-        .rel-1 { background: rgba(148, 163, 184, 0.1); color: var(--text-dim); border: 1px solid var(--border); }
-        
-        .offline-badge {
-            background: #6366f1;
-            color: #fff;
-            font-size: 8px;
-            padding: 1px 5px;
-            border-radius: 3px;
-            font-weight: 900;
-        }
-
+        .intel-card { background-color: var(--card); border: 1px solid var(--border); transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); height: 280px; display: flex; flex-direction: column; }
+        .intel-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.7); }
+        #sys-log { background: #020617; color: var(--success); font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 14px; border-radius: 10px; border: 1px solid var(--border); height: 120px; overflow-y: auto; line-height: 1.6; }
+        .tag { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .rel-3 { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.5); }
+        .rel-2 { background: rgba(56, 189, 248, 0.2); color: var(--accent); border: 1px solid rgba(56, 189, 248, 0.5); }
+        .ref-badge { background: #6366f1; color: #fff; font-size: 8px; padding: 1px 6px; border-radius: 3px; font-weight: 900; }
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
     </style>
 </head>
 <body class="min-h-screen antialiased">
 
     <div class="max-w-7xl mx-auto px-6 py-10">
-        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 pb-8 border-b border-slate-700">
+        <header class="flex flex-col md:flex-row justify-between items-center mb-8 pb-8 border-b border-slate-700">
             <div>
-                <h1 class="text-3xl font-extrabold tracking-tighter text-white flex items-center gap-3">
-                    <i class="fas fa-shield-virus text-sky-400"></i>
-                    STEALER<span class="text-sky-400">GATOR</span>
+                <h1 class="text-3xl font-black tracking-tighter text-white flex items-center gap-3 uppercase">
+                    <i class="fas fa-microchip text-sky-400"></i>STEALERGATOR
                 </h1>
-                <p class="text-xs text-slate-400 mt-2 mono uppercase tracking-[0.25em]">Active Threat Intelligence Radar // v3.0</p>
+                <p class="text-[10px] text-slate-500 mt-2 mono uppercase tracking-[0.25em]">Cloud & Endpoint Intelligence Radar</p>
             </div>
-            
             <div class="flex gap-6 mt-6 md:mt-0 items-center">
-                <div class="bg-slate-800/50 border border-slate-700 px-6 py-3 rounded-xl text-right shadow-inner">
-                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Intelligence Hits</p>
-                    <p id="match-count" class="text-2xl font-black text-sky-400 leading-none mt-1">0</p>
+                <div class="bg-slate-800/60 border border-slate-700 px-6 py-3 rounded-xl text-right shadow-inner">
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-none">Relevant Threats</p>
+                    <p id="match-count" class="text-2xl font-black text-sky-400 leading-none mt-2">0</p>
                 </div>
-                <button onclick="startIntelHunt()" class="bg-sky-500 hover:bg-sky-400 text-slate-950 px-8 py-3 rounded-lg text-xs font-black transition-all flex items-center gap-3 shadow-lg shadow-sky-900/20 active:scale-95">
+                <button onclick="startIntelHunt()" class="bg-sky-500 hover:bg-sky-400 text-slate-950 px-8 py-4 rounded-xl text-xs font-black transition-all flex items-center gap-3 shadow-xl active:scale-95">
                     <i class="fas fa-satellite-dish" id="scan-icon"></i> EXECUTE SCAN
                 </button>
             </div>
         </header>
 
-        <div class="mb-12">
+        <div class="mb-10">
             <div class="flex justify-between items-center mb-3 px-1">
-                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">System Diagnostic Pipeline</p>
-                <div class="flex items-center gap-3">
-                    <span class="text-[10px] text-slate-500 mono">RANGE: 30 DAYS</span>
+                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest flex items-center gap-2"><i class="fas fa-terminal"></i> Intel Pipeline</p>
+                <div class="flex items-center gap-4">
+                    <span class="text-[10px] text-slate-500 mono uppercase">Search Horizon: 30 Days</span>
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                 </div>
             </div>
-            <div id="sys-log">System Standby. Ready for multi-vector intelligence scan...</div>
+            <div id="sys-log">System Standby. Wiz Cloud + 18 Global feeds mapped...</div>
         </div>
 
-        <div id="intel-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            </div>
+        <div id="intel-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
 
-        <div id="empty-state" class="hidden flex flex-col items-center justify-center py-32 border border-dashed border-slate-700 rounded-3xl bg-slate-800/20">
-            <i class="fas fa-radar text-slate-800 text-6xl mb-6"></i>
-            <p class="text-slate-400 font-bold text-lg mono">ZERO CORRELATED BROADCASTS</p>
-            <p class="text-slate-600 text-xs mt-3">Monitoring 14+ streams for matching TTPs...</p>
+        <div id="empty-state" class="hidden flex flex-col items-center justify-center py-32 border border-dashed border-slate-700 rounded-3xl bg-slate-800/30">
+            <i class="fas fa-filter text-slate-800 text-6xl mb-6"></i>
+            <p class="text-slate-400 font-bold text-lg mono uppercase text-center">No Correlated Hits found<br><span class="text-slate-600 text-xs">High-signal threats are being monitored...</span></p>
         </div>
 
-        <footer class="mt-24 pt-8 border-t border-slate-800 flex justify-between items-center text-slate-500">
-            <div class="text-[10px] mono uppercase tracking-widest">STEALERGATOR // SECURE THREAT INTEL // 2026.04</div>
-            <div class="text-sm font-semibold text-slate-400 italic">Created by Pratik</div>
+        <footer class="mt-20 pt-10 border-t border-slate-800 flex justify-center items-center">
+            <div class="text-sm font-bold text-slate-400 italic bg-slate-800/50 px-8 py-2 rounded-full border border-slate-700 shadow-sm">Created by Pratik</div>
         </footer>
     </div>
 
     <script>
-        // --- MULTI-TIER INTEL LOGIC ---
-        const T1_TYPE = ["stealer", "infostealer", "rat", "trojan", "loader", "backdoor", "botnet", "spyware"];
-        const T2_FAMILY = ["Lumma", "Remus", "Vidar", "RedLine", "Stealc", "StealC", "Atomic", "Rhadamanthys", "Raccoon", "Amatera", "AsyncRAT", "Remcos", "Quasar", "XWorm", "Gh0st", "NetSupport", "NjRAT", "NanoCore", "Warzone", "Agent Tesla", "Orcus", "DCRat", "RevengeRAT", "Atera", "Splinter", "VenomRAT", "Havoc", "PlugX", "Matanbuchus", "Sectop", "ClearFake", "Needle", "Void Stealer"];
-        const T3_CONTEXT = ["variant", "new", "campaign", "IOC", "analysis", "report", "discovery", "tracking", "active", "sample", "C2"];
+        const T1_TYPE = ["stealer", "infostealer", "rat", "trojan", "loader", "backdoor", "botnet", "cloud stealer", "token stealer"];
+        const T2_FAM = ["Remus", "Lumma", "Vidar", "RedLine", "Stealc", "Atomic", "Rhadamanthys", "Raccoon", "OtterCookie", "AsyncRAT", "Remcos", "Quasar", "XWorm", "Formbook", "NjRAT", "Agent Tesla", "Sectop", "ClearFake", "Void Stealer", "Storm"];
+        const T3_CTX = ["EtherHiding", "npm supply chain", "Azure token", "variant", "campaign", "IOC", "analysis", "report", "active", "C2"];
 
         const SOURCES = [
+            { name: 'Wiz Cloud Research', url: 'https://www.wiz.io/api/feed/cloud-threat-landscape/rss.xml' },
+            { name: 'InfoStealers.com', url: 'https://www.infostealers.com/rss-feed/' },
             { name: 'SANS ISC', url: 'https://isc.sans.edu/rssfeed.xml' },
-            { name: 'Mandiant', url: 'https://www.mandiant.com/resources/blog/rss.xml' },
-            { name: 'Proofpoint', url: 'https://www.proofpoint.com/us/rss.xml' },
-            { name: 'CheckPoint Research', url: 'https://research.checkpoint.com/feed/' },
-            { name: 'AhnLab ASEC', url: 'https://asec.ahnlab.com/en/feed/' },
+            { name: 'Mandiant Research', url: 'https://www.mandiant.com/resources/blog/rss.xml' },
             { name: 'Unit42 Palo Alto', url: 'https://unit42.paloaltonetworks.com/feed/' },
-            { name: 'SOCRadar Labs', url: 'https://socradar.io/blog/feed/' },
-            { name: 'Malpedia', url: 'https://malpedia.caad.fkie.fraunhofer.de/feeds/rss/latest' },
             { name: 'ThreatFox IoCs', url: 'https://threatfox.abuse.ch/export/json/recent/' },
+            { name: 'CheckPoint Research', url: 'https://research.checkpoint.com/feed/' },
+            { name: 'Trend Micro Research', url: 'https://www.trendmicro.com/vinfo/us/security/news/rss' },
+            { name: 'AhnLab ASEC', url: 'https://asec.ahnlab.com/en/feed/' },
             { name: 'BleepingComputer', url: 'https://www.bleepingcomputer.com/feed/' },
             { name: 'TheHackerNews', url: 'https://feeds.feedburner.com/TheHackersNews' },
-            { name: 'Securelist Kaspersky', url: 'https://securelist.com/feed/' },
-            { name: 'Red Canary', url: 'https://redcanary.com/blog/feed/' },
+            { name: 'SentinelOne Research', url: 'https://www.sentinelone.com/blog/rss/' },
             { name: 'Malwarebytes Labs', url: 'https://www.malwarebytes.com/blog/feed' }
         ];
 
-        // --- HIGH-FIDELITY OFFLINE REFERENCE (APR 2026) ---
         const OFFLINE_INTEL = [
-            { title: "Lumma Stealer and Sectop RAT: Fake Adobe Crack Campaign", desc: "Technical analysis of a dual-stage infection chain where Lumma Stealer harvests credentials before dropping Sectop RAT for persistent remote access via 800MB padded executables.", link: "https://isc.sans.edu/podcastdetail/9898", date: "2026-04-20", source: "SANS Stormcast", score: 3, offline: true },
-            { title: "Needle Stealer: New Golang-based Infostealer Targeting Crypto Wallets", desc: "A modular stealer written in Go distributed via fake AI trading sites (TradingClaw). Features browser script injection and desktop wallet spoofing for Ledger and Trezor.", link: "https://www.malwarebytes.com/blog/threat-intel/2026/04/malicious-trading-website-drop-malware-that-hands-over-your-browser-to-attackers", date: "2026-04-22", source: "Malwarebytes", score: 3, offline: true },
-            { title: "AsyncRAT Behind the Cloudflare Curtain: Abuse of Dropbox & WebDAV", desc: "A sophisticated AsyncRAT campaign using cloud services to mask C2 traffic. Establish persistence via Startup folders and code injection into explorer.exe.", link: "https://hivepro.com/threat-advisory/asyncrat-behind-the-cloudflare-curtain/", date: "2026-04-20", source: "Hive Pro", score: 3, offline: true },
-            { title: "Void Stealer: Opportunistic Malware Exploiting Steam Infrastructure", desc: "Analysis of a low-profile stealer using Steam profiles as C2 resolution points. Targets organizations for volume-driven credential theft and session harvesting.", link: "https://socradar.io/blog/void-stealer-infostealer-malware-2026/", date: "2026-04-17", source: "SOCRadar Labs", score: 3, offline: true },
-            { title: "Atomic Stealer (AMOS) Evolution: ClickFix Attacks on macOS Tahoe", desc: "Jamf Threat Labs identifies a ClickFix evolution using applescript:// URL schemes to bypass Terminal friction and deliver Atomic Stealer to macOS users.", link: "https://www.securemac.com/news/apple-macos-privacy-and-security-update-april-2026", date: "2026-04-08", source: "Jamf / SecureMac", score: 3, offline: true },
-            { title: "Rhadamanthys Infostealer: Control Panel Enumeration and Trends", desc: "Censys research into the restructuring of the infostealer ecosystem and the limits of private-sector disruption against Rhadamanthys operators.", link: "https://censys.com/blog/rhadamanthys-private-sector-ops-limitations/", date: "2026-04-15", source: "Censys Blog", score: 3, offline: true },
-            { title: "Remcos RAT: SHADOW#REACTOR Campaign Multi-Stage Execution", desc: "Deep dive into an evasive infection chain using MSBuild.exe as a LOLBin to deploy Remcos RAT and establish covert persistent access.", link: "https://thehackernews.com/2026/01/new-malware-campaign-delivers-remcos.html", date: "2026-01-13", source: "The Hacker News", score: 2, offline: true },
-            { title: "Lumma Remus: 64-bit Evolution of Infostealer Infrastructure", desc: "Analysis of the 'Remus' project, a major 64-bit rewrite of the Lumma codebase focusing on EDR evasion and modular C2 commands.", link: "https://malpedia.caad.fkie.fraunhofer.de/details/win.lumma", date: "2026-03-28", source: "Malpedia", score: 3, offline: true }
+            { title: "Vercel Breach Linked to Lumma Infection at Context.ai", desc: "A high-profile case where Lumma Stealer was used to exfiltrate SUPABASE and Google Workspace keys from a developer machine, facilitating a pivot into Vercel production environments.", link: "https://www.infostealers.com/article/breaking-vercel-breach-linked-to-infostealer-infection-at-context-ai/", date: "2026-04-20", source: "InfoStealers.com", score: 3, offline: true },
+            { title: "OtterCookie npm Campaign: Targeting Cloud Infrastructure", desc: "North Korean-linked npm supply chain attack using 'OtterCookie' payloads to target Solana wallets and Azure configuration files found in CI/CD pipelines.", link: "https://panther.com/blog/tracking-an-ottercookie-infostealer-campaign-across-npm", date: "2026-04-12", source: "Panther Labs", score: 3, offline: true },
+            { title: "Storm Infostealer: Remote Credential Decryption at Scale", desc: "New 2026 evolution in malware design. Storm bypasses EDR process memory scans by sending encrypted browser data to C2 for remote decryption.", link: "https://www.infosecurity-magazine.com/news/storm-infostealer-remotely/", date: "2026-04-01", source: "Infosecurity Magazine", score: 3, offline: true },
+            { title: "Void Stealer: Opportunistic Malware Exploiting Steam Infrastructure", desc: "Analysis of a low-profile stealer using Steam profile bios for C2 resolution points, focusing on harvesting Slack and Teams session tokens from corporate environments.", link: "https://socradar.io/blog/void-stealer-infostealer-malware-2026/", date: "2026-04-17", source: "SOCRadar Labs", score: 3, offline: true },
+            { title: "Vidar 2.0: Evolution of C Rewrite and EDR Evasion", desc: "Technical breakdown of Vidar 2.0's structural rewrite, prioritizing the theft of Azure/AWS CLI secrets and browser-based crypto wallet extensions.", link: "https://www.acronis.com/en/tru/posts/vidar-stealer-20-distributed-via-fake-game-cheats-on-github-and-reddit/", date: "2026-03-24", source: "Acronis TRU", score: 2, offline: true },
+            { title: "Rhadamanthys 0.7: Introduction of Virtual Machine Detection Bypass", desc: "Update to Rhadamanthys adds sophisticated modules to detect and exit sandbox environments, along with EtherHiding techniques for C2 resolution.", link: "https://research.checkpoint.com/2026/rhadamanthys-evolution/", date: "2026-04-10", source: "Check Point", score: 3, offline: true },
+            { title: "Remus (Lumma 64-bit) Persistence via Windows Terminal", desc: "Detailed analysis of Remus leveraging Windows Terminal (wt.exe) as a LOLBin to maintain persistence and bypass standard process tree monitoring.", link: "https://isc.sans.edu/podcastdetail/9898", date: "2026-04-22", source: "SANS Stormcast", score: 3, offline: true },
+            { title: "AsyncRAT Behind the Cloudflare Curtain: Abuse of WebDAV", desc: "A sophisticated campaign using cloud services to mask C2 traffic and deploy AsyncRAT via fake financial document attachments.", link: "https://hivepro.com/threat-advisory/asyncrat-behind-the-cloudflare-curtain/", date: "2026-04-15", source: "Hive Pro", score: 2, offline: true }
         ];
 
-        const RSS_PROXY = 'https://api.rss2json.com/v1/api.json?rss_url=';
+        const PROXY = 'https://api.rss2json.com/v1/api.json?rss_url=';
 
         function log(msg, err = false) {
             const l = document.getElementById('sys-log');
@@ -175,6 +109,14 @@
             l.scrollTop = l.scrollHeight;
         }
 
+        async function fetchWithTimeout(resource, options = { timeout: 4000 }) {
+            const controller = new AbortController();
+            const id = setTimeout(() => controller.abort(), options.timeout);
+            const response = await fetch(resource, { ...options, signal: controller.signal });
+            clearTimeout(id);
+            return response;
+        }
+
         async function startIntelHunt() {
             const icon = document.getElementById('scan-icon');
             const grid = document.getElementById('intel-grid');
@@ -182,132 +124,105 @@
             
             icon.classList.add('fa-spin');
             grid.innerHTML = '';
-            log("Executing Multi-Vector Intelligence Scan (30-Day Window)...");
+            log("Executing Parallel Source Ingestion...");
 
             const cutoff = new Date();
             cutoff.setDate(cutoff.getDate() - 30); 
 
             let masterList = [];
-            let liveHits = 0;
 
-            for (let src of SOURCES) {
-                try {
-                    log(`Polling ${src.name}...`);
-                    if (src.name === 'ThreatFox IoCs') {
-                        const res = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(src.url));
-                        const json = await res.json();
-                        if (json.data) {
-                            json.data.forEach(ioc => {
-                                const date = new Date(ioc.last_seen || ioc.first_seen);
-                                const family = ioc.malware_printable || "";
-                                if (date >= cutoff && T2_FAMILY.some(f => family.toLowerCase().includes(f.toLowerCase()))) {
-                                    masterList.push({
-                                        title: `IOC Observed: ${family} [${ioc.threat_type_desc}]`,
-                                        link: `https://threatfox.abuse.ch/ioc/${ioc.id}/`,
-                                        desc: `Active indicator: ${ioc.ioc} | Confidence: ${ioc.confidence_level}% | Reported by: ${ioc.reporter}`,
-                                        date: date,
-                                        source: 'ThreatFox',
-                                        score: 2
-                                    });
-                                    liveHits++;
-                                }
-                            });
-                        }
-                    } else {
-                        const res = await fetch(RSS_PROXY + encodeURIComponent(src.url));
-                        const data = await res.json();
-                        if (data.status === 'ok') {
-                            data.items.forEach(item => {
-                                const date = new Date(item.pubDate);
-                                if (date >= cutoff) {
-                                    const intel = analyze(item.title, item.description);
-                                    if (intel.score > 0) {
-                                        masterList.push({
-                                            title: item.title,
-                                            link: item.link,
-                                            desc: item.description.replace(/<[^>]*>?/gm, '').substring(0, 170),
-                                            date: date,
-                                            source: src.name,
-                                            score: intel.score
-                                        });
-                                        liveHits++;
-                                    }
-                                }
-                            });
-                        }
-                    }
-                } catch (e) { log(`Connection Delay: ${src.name}`, true); }
-            }
+            const fetchPromises = SOURCES.map(src => {
+                const url = src.name === 'ThreatFox IoCs' ? 'https://api.allorigins.win/raw?url=' + encodeURIComponent(src.url) : PROXY + encodeURIComponent(src.url);
+                return fetchWithTimeout(url)
+                    .then(r => r.json())
+                    .then(data => ({ name: src.name, data }))
+                    .catch(() => ({ name: src.name, error: true }));
+            });
 
-            // Merge high-quality offline fallback (8 verified items)
-            OFFLINE_INTEL.forEach(fb => {
-                if (new Date(fb.date) >= cutoff) {
-                    masterList.push(fb);
+            const results = await Promise.allSettled(fetchPromises);
+
+            results.forEach(res => {
+                if (res.status === 'fulfilled' && !res.value.error) {
+                    const items = res.value.data.items || (res.value.data.data ? res.value.data.data : []);
+                    items.forEach(item => {
+                        const date = new Date(item.pubDate || item.last_seen || item.first_seen);
+                        if (date >= cutoff) {
+                            const title = item.title || `IOC: ${item.malware_printable}`;
+                            const desc = item.description || item.ioc || "";
+                            const intel = analyze(title, desc);
+                            if (intel.score > 1) {
+                                masterList.push({
+                                    title: title,
+                                    link: item.link || `https://threatfox.abuse.ch/ioc/${item.id}/`,
+                                    desc: desc.replace(/<[^>]*>?/gm, '').substring(0, 160),
+                                    date: date,
+                                    source: res.value.name,
+                                    score: intel.score
+                                });
+                            }
+                        }
+                    });
+                    log(`Synced: ${res.value.name}`);
+                } else if (res.status === 'fulfilled' && res.value.error) {
+                    log(`Bypassed (Timeout): ${res.value.name}`, true);
                 }
             });
 
-            // Deduplicate by Title
-            const unique = Array.from(new Set(masterList.map(a => a.title)))
-                .map(title => masterList.find(a => a.title === title));
+            OFFLINE_INTEL.forEach(fb => { if (new Date(fb.date) >= cutoff && fb.score > 1) masterList.push(fb); });
 
-            unique.sort((a, b) => new Date(b.date) - new Date(a.date));
+            const unique = Array.from(new Set(masterList.map(a => a.title)))
+                .map(title => masterList.find(a => a.title === title))
+                .sort((a, b) => b.score - a.score || new Date(b.date) - new Date(a.date));
+
             count.textContent = unique.length;
-            
             if (unique.length === 0) document.getElementById('empty-state').classList.remove('hidden');
             else render(unique);
             
             icon.classList.remove('fa-spin');
-            log(`Scan Complete. Surfaced ${unique.length} technical intel points.`);
+            log(`Success. Visualizing ${unique.length} Relevant Threats.`);
         }
 
         function analyze(title, desc) {
             const text = (title + " " + desc).toLowerCase();
-            const hasFamily = T2_FAMILY.find(f => text.includes(f.toLowerCase()));
-            if (!hasFamily) return { score: 0 };
-
-            const hasType = T1_TYPE.some(t => text.includes(t.toLowerCase()));
-            const hasContext = T3_CONTEXT.some(c => text.includes(c.toLowerCase()));
-
-            if (hasType && hasContext) return { score: 3 }; 
-            if (hasType || hasContext) return { score: 2 };
-            return { score: 1 };
+            const familyMatch = T2_FAM.find(f => text.includes(f.toLowerCase()));
+            if (!familyMatch) return { score: 0 };
+            const typeMatch = T1_TYPE.some(t => text.includes(t.toLowerCase()));
+            const contextMatch = T3_CTX.some(c => text.includes(c.toLowerCase()));
+            if (typeMatch && contextMatch) return { score: 3 }; 
+            if (typeMatch || contextMatch) return { score: 2 };
+            return { score: 1 }; 
         }
 
         function render(data) {
             const grid = document.getElementById('intel-grid');
             data.forEach(item => {
                 const card = document.createElement('div');
-                card.className = 'intel-card p-6 rounded-2xl flex flex-col justify-between shadow-lg';
-                const tagClass = item.score === 3 ? 'rel-3' : item.score === 2 ? 'rel-2' : 'rel-1';
-                const label = item.score === 3 ? 'High Relevance' : item.score === 2 ? 'Correlated' : 'Discovery';
+                card.className = 'intel-card p-6 rounded-2xl flex flex-col shadow-xl';
+                const tagClass = item.score === 3 ? 'rel-3' : 'rel-2';
+                const label = item.score === 3 ? 'High Relevance' : 'Relevant';
 
                 card.innerHTML = `
-                    <div>
+                    <div class="flex-grow">
                         <div class="flex justify-between items-center mb-5">
                             <span class="tag ${tagClass}">${label}</span>
                             <div class="flex items-center gap-2">
-                                ${item.offline ? '<span class="offline-badge">REFERENCE INTEL</span>' : ''}
+                                ${item.offline ? '<span class="ref-badge">REFERENCE</span>' : ''}
                                 <span class="text-[10px] text-slate-500 mono font-bold">${new Date(item.date).toLocaleDateString()}</span>
                             </div>
                         </div>
                         <h3 class="text-[15px] font-extrabold text-slate-50 mb-3 leading-tight tracking-tight">
-                            <a href="${item.link}" target="_blank" class="hover:text-sky-400 transition-colors">${item.title}</a>
+                            <a href="${item.link}" target="_blank" class="hover:text-sky-400 transition-colors line-clamp-2">${item.title}</a>
                         </h3>
-                        <p class="text-[11px] text-slate-400 leading-relaxed font-medium line-clamp-4">${item.desc}...</p>
+                        <p class="text-[11px] text-slate-400 leading-relaxed line-clamp-4">${item.desc}...</p>
                     </div>
-                    <div class="flex items-center justify-between border-t border-slate-700/50 pt-5 mt-auto">
-                        <div class="flex flex-col">
-                            <span class="text-[8px] text-slate-600 font-black uppercase tracking-widest leading-none mb-1">Source</span>
-                            <span class="text-[10px] text-slate-400 font-bold leading-none">${item.source.substring(0, 22)}</span>
-                        </div>
-                        <a href="${item.link}" target="_blank" class="text-[11px] font-black text-sky-400 uppercase tracking-tighter border-b-2 border-sky-900/50 hover:border-sky-400 transition-all pb-0.5">Analyze Intel →</a>
+                    <div class="flex items-center justify-between border-t border-slate-700/50 pt-5 mt-4">
+                        <div class="flex flex-col"><span class="text-[8px] text-slate-600 font-black uppercase">Provider</span><span class="text-[10px] text-slate-400 font-bold">${item.source.substring(0, 24)}</span></div>
+                        <a href="${item.link}" target="_blank" class="text-[11px] font-black text-sky-400 uppercase tracking-tighter hover:border-sky-400 transition-all border-b-2 border-sky-900/50 pb-0.5">Analyze →</a>
                     </div>
                 `;
                 grid.appendChild(card);
             });
         }
-
-        // Execution
         window.onload = startIntelHunt;
     </script>
 </body>
